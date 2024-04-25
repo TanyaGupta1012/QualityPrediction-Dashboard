@@ -1,39 +1,43 @@
-import pandas as pd
 import numpy as np
-from sklearn.preprocessing import KBinsDiscretizer
-from imblearn.over_sampling import SMOTE
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
+import pickle
 
-def train_logistic_regression_model(df):
-    # Discretize the continuous target variable into classes
-    n_bins = 5  # Number of bins for discretization
-    discretizer = KBinsDiscretizer(n_bins=n_bins, encode='ordinal', strategy='uniform')
-    y_discrete = discretizer.fit_transform(df["AQI"].values.reshape(-1, 1)).flatten()
+# Load the dataset
+df = pd.read_csv("air_quality.csv")
 
-    # Splitting data into features and target variable
-    x = df.drop("AQI", axis=1)
-    y = pd.Series(y_discrete)
+# Convert continuous target variable into categories
+df['AQI_category'] = pd.cut(df['AQI'], bins=[-np.inf, 50, np.inf], labels=['Good', 'Polluted'])
 
-    # Splitting into training and testing data
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+# Separate features and target variable
+x = df.drop(['AQI', 'AQI_category'], axis=1)
+y = df['AQI_category']
 
-    # Oversample using SMOTE
-    oversample = SMOTE(k_neighbors=4)
-    x_resampled, y_resampled = oversample.fit_resample(x_train, y_train)
+# Standardize features
+scaler = StandardScaler()
+x = scaler.fit_transform(x)
 
-    # Initialize and train the Logistic Regression model
-    model_lr = LogisticRegression()
-    model_lr.fit(x_resampled, y_resampled)
+# Split data into train and test sets
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
-    return model_lr
+# Instantiate SVM classifier
+model_lr = SVC(kernel='rbf', random_state=42)
 
-def predict_aqi(model, input_data):
-    # Input data for prediction
-    input_data_as_np_array = np.asarray(input_data)
-    input_data_reshape = input_data_as_np_array.reshape(1, -1)
+# Train the model
+model_lr.fit(x_train, y_train)
 
-    # Prediction on input data
-    prediction = model.predict(input_data_reshape)
-    return prediction[0]
+# Make predictions on the test set
+pred_lr = model_lr.predict(x_test)
+
+# Calculate accuracy score
+accuracy_score_lr = accuracy_score(y_test, pred_lr)
+
+try:
+    with open('air_model.pkl', 'wb') as f:
+        pickle.dump(pred_lr, f)
+    print("Model saved successfully!")
+except Exception as e:
+    print("Error saving the model:", e)

@@ -45,5 +45,5 @@ def predict_wine_quality(input_data):
 
     return prediction[0]
 
-with open('model.pkl', 'rb') as f:
-        model = pickle.load(f)
+
+feature_names = ["fixed_acidity", "volatile_acidity", "citric_acid", "residual_sugar", "chlorides", "free_sulfur_dioxide", "total_sulfur_dioxide", "density", "ph", "sulphates", "alcohol"]

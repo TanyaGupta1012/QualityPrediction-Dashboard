@@ -1,68 +1,86 @@
+
+
 from flask import Flask, render_template, request
 import numpy as np
 import pickle
 import wine
-import air
 import pandas as pd
+import air
+import water
+
 
 app = Flask(__name__)
-with open('model.pkl', 'rb') as f:
-    water_model = pickle.load(f)
+app.config['DEBUG'] = True 
 
-with open('model.pkl', 'rb') as f:
-    model_air = pickle.load(f)
+# with open('model.pkl', 'rb') as f:
+#     model_data = pickle.load(f)
+
+with open('air_model.pkl', 'rb') as f:
+    air_model = pickle.load(f)
 
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/water_predict', methods=['POST', 'GET'])
-def water_predict():
-    # Extract input data from the form
-    input_data = [float(x) for x in request.form.values()]
-    input_data_reshape = np.array(input_data).reshape(1, -1)
+@app.route('/wine', methods=['POST','GET'])
+def wine_page():
+    return render_template('wine.html')
 
-    # Make prediction using the pre-trained model
-    prediction = water_model.predict(input_data_reshape)
-    # prediction = model.predict([input_data])
+@app.route('/water', methods=['POST','GET'])
+def water_page():
+    return render_template('water.html')
 
-
-    # Determine prediction result
-    if prediction[0] == 0:
-        result = "Level of water is good"
-    else:
-        result = "Level of water is polluted, alert system is activated"
-
-    # Return prediction result to the user
-    return render_template('result.html', result=result)
+@app.route('/air', methods=['POST','GET'])
+def air_page():
+    return render_template('air.html')
 
 
-@app.route('/wine_predict', methods=['POST'])
+@app.route('/wine_predict', methods=['POST','GET'])
 def wine_predict():
+    if request.method == 'POST':
     # Extract input data from the form
-    input_data = [float(x) for x in request.form.values()]
+         input_data = [float(x) for x in request.form.values()]
 
     # Make prediction using the function from wine.py
-    prediction = wine.predict_wine_quality(input_data)
+         prediction = wine.predict_wine_quality(input_data)
 
     # Return prediction result to the user
-    return render_template('result.html', prediction=prediction)
+         return render_template('wine_result.html', prediction=prediction)
+    return render_template('wine_result.html', prediction=None)
 
+@app.route('/water_predict', methods=['POST', 'GET'])
+def water_predict():
+    if request.method == 'POST':
+        # Extract input data from the form
+        input_data = [float(x) for x in request.form.values()]
 
-# with open('model.pkl', 'rb') as f:
-#     model_air = pickle.load(f)
+        # Make prediction using the pre-trained model
+        result = water.water_quality_prediction(input_data)
 
+        # Return prediction result to the user
+        return render_template('water_result.html', result=result)
+    return render_template('water_result.html', result=None)
 
-# Assuming df2 is the DataFrame containing your preprocessed data
 @app.route('/air_predict', methods=['POST', 'GET'])
 def air_predict():
-    # print("Request received for air prediction")
-    input_data = [float(x) for x in request.form.values()]
-    # print("Input data:", input_data)
-    predicted_aqi = air.predict_aqi(model_air, input_data)
-    # print("Predicted AQI:", predicted_aqi)
-    return render_template('result.html', air_prediction=predicted_aqi)
+    if request.method == 'POST':
+        # Extract input data from the form
+        input_data = [float(x) for x in request.form.values()]
+        input_data_reshape_air = np.array(input_data).reshape(1, -1)
+
+        # Make prediction using the air.py module
+        air_prediction = air.model_lr.predict(input_data_reshape_air)
+
+        if air_prediction[0] == 'Good':
+            predict = "Quality of air is good"
+        else:
+            predict = "Quality of air is polluted"
+
+        # Return prediction result to the user
+        return render_template('air_result.html', predict = predict)
+    return render_template('air_result.html', predict=None)
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

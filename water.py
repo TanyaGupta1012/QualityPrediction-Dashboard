@@ -1,97 +1,41 @@
+
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-from imblearn.over_sampling import SMOTE
-import pickle
+from sklearn.neighbors import KNeighborsClassifier
 
-# Load dataset
-df = pd.read_csv("water_potability (2).csv")
+def water_quality_prediction(input_data):
+    # Load dataset
+    df = pd.read_csv("water_potability.csv")
+    # Fill missing values
+    df.fillna(df.mean(), inplace=True)
+    # Separate features and target
+    x = df.drop('Potability', axis=1)
+    y = df['Potability']
+    
+    # Standardize features
+    std_scaler = StandardScaler()
+    x_scaled = std_scaler.fit_transform(x)
+    
+    # Split data into train and test sets
+    x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, random_state=42, stratify=y)
+    
+    # Initialize KNeighborsClassifier model
+    knn_model = KNeighborsClassifier()
+    
+    # Train the model
+    knn_model.fit(x_train, y_train)
+    
+    # Scale the input data using the pre-defined StandardScaler
+    scaled_data = std_scaler.transform([input_data])
+    
+    # Predict water quality using the trained KNeighborsClassifier model
+    model_prediction = knn_model.predict(scaled_data)
+    
+    if model_prediction[0] == 0:
+        return "Alert: Water Quality is Unfavorable"
+    else:
+        return "Quality of Water is Optimal"
 
-# Handle missing values
-df["ph"] = df["ph"].fillna(df["ph"].mean())
-df["Sulfate"] = df["Sulfate"].fillna(df["Sulfate"].mean())
-df["Trihalomethanes"] = df["Trihalomethanes"].fillna(df["Trihalomethanes"].mean())
-
-# Prepare features and target
-x = df.drop("Potability", axis=1)
-y = df["Potability"]
-
-# Standardize features
-scaler = StandardScaler()
-x = scaler.fit_transform(x)
-
-# Split dataset into train and test sets
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
-
-# Logistic Regression model
-model_lr = LogisticRegression()
-model_lr.fit(x_train, y_train)
-
-# Make predictions
-pred_lr = model_lr.predict(x_test)
-accuracy_score_lr = accuracy_score(y_test, pred_lr)
-
-# # Define input data for prediction
-input_data = np.array([value1, value2, value3, ..., valueN])
-
-# # Reshape input data and make prediction
-input_data_reshape = input_data.reshape(1, -1)
-prediction = model_lr.predict(input_data_reshape)
-
-with open('model.pkl', 'wb') as f:
-    pickle.dump(model_lr, f)
-
-
-# import numpy as np
-# import pandas as pd
-# from sklearn.preprocessing import StandardScaler
-# from sklearn.model_selection import train_test_split
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.metrics import accuracy_score
-# import pickle
-
-# def train_and_save_model(dataset_file):
-#     # Load dataset
-#     df = pd.read_csv(dataset_file)
-
-#     # Handle missing values
-#     df["ph"] = df["ph"].fillna(df["ph"].mean())
-#     df["Sulfate"] = df["Sulfate"].fillna(df["Sulfate"].mean())
-#     df["Trihalomethanes"] = df["Trihalomethanes"].fillna(df["Trihalomethanes"].mean())
-
-#     # Prepare features and target
-#     x = df.drop("Potability", axis=1)
-#     y = df["Potability"]
-
-#     # Standardize features
-#     scaler = StandardScaler()
-#     x = scaler.fit_transform(x)
-
-#     # Split dataset into train and test sets
-#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
-
-#     # Logistic Regression model
-#     model_lr = LogisticRegression()
-#     model_lr.fit(x_train, y_train)
-
-#     # Make predictions
-#     pred_lr = model_lr.predict(x_test)
-#     accuracy_score_lr = accuracy_score(y_test, pred_lr)
-
-#     # Save the trained model
-#     with open('model.pkl', 'wb') as f:
-#         pickle.dump(model_lr, f)
-
-# def predict_water_potability(input_data):
-#     # Load the trained model
-#     with open('model.pkl', 'rb') as f:
-#         model = pickle.load(f)
-
-#     # Reshape input data and make prediction
-#     input_data_reshape = np.array(input_data).reshape(1, -1)
-#     prediction = model.predict(input_data_reshape)
-
-#     return prediction

@@ -1,136 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Machine Learning Project Selector</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        form {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        label {
-            margin-bottom: 10px;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <div class="container">
-        <h1>Machine Learning Project Selector</h1>
-        <!-- <a href="/water_predict">Water Quality Prediction</a>
-        <a href="/wine_predict">Wine Quality Prediction</a>
-        <a href="/air_predict">Air Quality Prediction</a> -->
-        <form action="/water_predict" method="post">
-            <h2>Water Quality Prediction</h2>
-            <label for="ph">PH:</label>
-            <input type="number" id="ph" name="ph" step="0.01" required>
-            <label for="hardness">Hardness:</label>
-            <input type="number" id="hardness" name="hardness" step="0.01" required>
-            <label for="solids">Solids:</label>
-            <input type="number" id="solids" name="solids" step="0.01" required>
-            <label for="chloramines">Chloramines:</label>
-            <input type="number" id="chloramines" name="chloramines" step="0.01" required>
-            <label for="sulfate">Sulfate:</label>
-            <input type="number" id="sulfate" name="sulfate" step="0.01" required>
-            <label for="conductivity">Conductivity:</label>
-            <input type="number" id="conductivity" name="conductivity" step="0.01" required>
-            <label for="organic_carbon">Organic Carbon:</label>
-            <input type="number" id="organic_carbon" name="organic_carbon" step="0.01" required>
-            <label for="trihalomethanes">Trihalomethanes:</label>
-            <input type="number" id="trihalomethanes" name="trihalomethanes" step="0.01" required>
-            <label for="turbidity">Turbidity:</label>
-            <input type="number" id="turbidity" name="turbidity" step="0.01" required>
-            <button type="submit">Predict Water Quality</button>
-        </form>
-        <form action="/wine_predict" method="post">
-            <h2>Wine Quality Prediction</h2>
-            <label for="fixed_acidity">Fixed Acidity:</label>
-            <input type="number" id="fixed_acidity" name="fixed_acidity" step="0.01" required>
-            <label for="volatile_acidity">Volatile Acidity:</label>
-            <input type="number" id="volatile_acidity" name="volatile_acidity" step="0.01" required>
-            <label for="citric_acid">Citric Acid:</label>
-            <input type="number" id="citric_acid" name="citric_acid" step="0.01" required>
-            <label for="residual_sugar">Residual Sugar:</label>
-            <input type="number" id="residual_sugar" name="residual_sugar" step="0.01" required>
-            <label for="chlorides">Chlorides:</label>
-            <input type="number" id="chlorides" name="chlorides" step="0.01" required>
-            <label for="free_sulfur_dioxide">Free Sulfur Dioxide:</label>
-            <input type="number" id="free_sulfur_dioxide" name="free_sulfur_dioxide" step="0.01" required>
-            <label for="total_sulfur_dioxide">Total Sulfur Dioxide:</label>
-            <input type="number" id="total_sulfur_dioxide" name="total_sulfur_dioxide" step="0.01" required>
-            <label for="density">Density:</label>
-            <input type="number" id="density" name="density" step="0.01" required>
-            <label for="ph">PH:</label>
-            <input type="number" id="ph" name="ph" step="0.01" required>
-            <label for="sulphates">Sulphates:</label>
-            <input type="number" id="sulphates" name="sulphates" step="0.01" required>
-            <label for="alcohol">Alcohol:</label>
-            <input type="number" id="alcohol" name="alcohol" step="0.01" required>
-            <button type="submit">Predict Wine Quality</button>
-        </form>
-        <form action="/air_predict" method="post">
-            <h2>Air Quality Prediction</h2>
-            <label for="PM2.5">PM2.5:</label>
-            <input type="number" id="PM2.5" name="PM2.5" step="0.01" required>
-            <label for="PM10">PM10:</label>
-            <input type="number" id="PM10" name="PM10" step="0.01" required>
-            <label for="NO">NO:</label>
-            <input type="number" id="NO" name="NO" step="0.01" required>
-            <label for="NO2'">NO2:</label>
-            <input type="number" id="NO2'" name="NO2''" step="0.01" required>
-            <label for="NOx'">NOx:</label>
-            <input type="number" id="NOx'" name="NOx'" step="0.01" required>
-            <label for="NH3">NH3:</label>
-            <input type="number" id="NH3" name="NH3" step="0.01" required>
-            <label for="CO">CO:</label>
-            <input type="number" id="CO" name="CO" step="0.01" required>
-            <label for="SO2">SO2:</label>
-            <input type="number" id="SO2" name="SO2" step="0.01" required>
-            <label for="O3">O3:</label>
-            <input type="number" id="O3" name="O3" step="0.01" required>
-            <label for="Benzene">Benzene:</label>
-            <input type="number" id="Benzene" name="Benzene" step="0.01" required>
-            <label for="Toluene">Toluene:</label>
-            <input type="number" id="Toluene" name="Toluene" step="0.01" required>
-            <label for="Xylene">Xylene:</label>
-            <input type="number" id="Xylene" name="Xylene" step="0.01" required>
-            <button type="submit">Predict Air Quality</button>
-        </form>
+
+    <!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">QPD</a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Our Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">Key Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Query</a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <form class="d-flex search-form">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    
+    <!-- Carousel -->
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='air.jpeg') }}" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block position-absolute">
+                    <h1 class="display-1 carousel-heading" style="color: #f8f7f6;">Quality Prediction Dashboard</h1>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='water4.jpg') }}" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block position-absolute" style="top: 30%">
+                    <h1 class="display-1 carousel-heading" style="color: rgb(41, 32, 32); font-size: 70px; font-weight: 400;">Quality Prediction Dashboard</h1>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='wine1.jpg') }}" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block position-absolute" style="top: 50%; right: 35%;">
+                    <h1 class="display-1 carousel-heading" style="color: rgb(48, 33, 33); font-size: 66px;">Quality Prediction Dashboard</h1>
+                </div>
+            </div>
+            <!-- Add more carousel items as needed -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
+    <!-- About Section -->
+    <section id="about" class="container mt-5">
+        <h2 class="sub-heading">About Us</h2>
+        <p>The Quality Prediction Dashboard is a platform that leverages advanced machine learning algorithms to provide accurate predictions of various quality parameters. Whether it's ensuring safe drinking water, maintaining high-quality wine production, or monitoring air pollution levels, our system empowers industries and individuals to make informed decisions.</p>
+        <p>With a user-friendly interface and robust predictive models, our platform offers actionable insights that drive efficiency and sustainability across different sectors. From environmental conservation to public health, our predictive analytics help address critical challenges facing society today.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="container mt-5">
+        <h2 class="sub-heading">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="service-box">
+                    <img src="{{ url_for('static', filename='air1.jpg') }}" alt="Air Quality Prediction">
+                    <h3>Air Quality Prediction</h3>
+                    <p>Predicting air quality helps in monitoring pollution levels, protecting public health, and
+                        implementing effective pollution control measures.</p>
+                    <a href="/air">Click here for quality prediction</a>    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-box">
+                    <img src="{{ url_for('static', filename='water1.jpg') }}" alt="Water Quality Prediction">
+                    <h3>Water Quality Prediction</h3>
+                    <p>Predicting water quality parameters helps in ensuring safe drinking water, preventing waterborne diseases, and preserving aquatic ecosystems.</p>
+                    <a href="/water">Click here for quality prediction</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-box">
+                    <img src="{{ url_for('static', filename='wine.jpg') }}" alt="Wine Quality Prediction">
+                    <h3>Wine Quality Prediction</h3>
+                    <p>Quality prediction of wine assists winemakers in improving wine production processes,
+                        maintaining consistent quality, and meeting consumer preferences.</p>
+                    <a href="/wine">Click here for quality prediction</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="container mt-5">
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Key Features:</h3>
+                <ul>
+                    <li>Advanced machine learning algorithms</li>
+                    <li>Real-time data analysis</li>
+                    <li>Customizable prediction models</li>
+                    <li>Interactive visualization tools</li>
+                    <li>Scalable infrastructure</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h3>Why Choose Us?</h3>
+                <p>Our team of data scientists and domain experts is dedicated to delivering cutting-edge solutions that drive tangible results. By combining technical expertise with industry insights, we tailor our predictive analytics to meet the specific needs of our clients.</p>
+                <p>Whether you're a government agency, a research institution, or a private enterprise, our Quality Prediction Dashboard offers a reliable and efficient way to unlock the potential of your data. Join us in shaping a better future through data-driven decision-making!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class=" anothersub-heading">Contact Us</h2>
+            <div class="row">
+                <div class="col-md-6 contact-info">
+                    <h3>Contact Information</h3>
+                    <p>Email: info@example.com</p>
+                    <p>Phone: +1234567890</p>
+                </div>
+                <div class="col-md-6 contact-form">
+                    <h3>Get in Touch</h3>
+                    <form>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
