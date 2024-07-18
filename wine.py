@@ -36,7 +36,7 @@ def predict_wine_quality(input_data):
     model.fit(x_train, y_train)
 
     # Sample input data for prediction
-    # input_data = (5.7, 1.13, 0.09, 1.5, 0.172, 7.0, 19.0, 0.994, 3.5, 0.48, 9.8)
+    #input_data = (5.7, 1.13, 0.09, 1.5, 0.172, 7.0, 19.0, 0.994, 3.5, 0.48, 9.8)
     input_data_as_np_array = np.asarray(input_data)
     input_data_reshape = input_data_as_np_array.reshape(1, -1)
 
@@ -44,6 +44,5 @@ def predict_wine_quality(input_data):
     prediction = model.predict(input_data_reshape)
 
     return prediction[0]
-
 
 feature_names = ["fixed_acidity", "volatile_acidity", "citric_acid", "residual_sugar", "chlorides", "free_sulfur_dioxide", "total_sulfur_dioxide", "density", "ph", "sulphates", "alcohol"]

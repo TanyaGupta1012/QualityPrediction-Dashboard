@@ -50,18 +50,25 @@ def wine_predict():
     return render_template('wine_result.html', prediction=None)
 
 @app.route('/water_predict', methods=['POST', 'GET'])
+
 def water_predict():
     if request.method == 'POST':
         # Extract input data from the form
         input_data = [float(x) for x in request.form.values()]
 
-        # Make prediction using the pre-trained model
-        result = water.water_quality_prediction(input_data)
+        # Assume the first value in input_data is the pH value
+        ph = input_data[0]
+
+        # Check if the pH value is within the safe range
+        if ph< 5 or ph > 9:
+            result = "Alert: Water Quality is Unfavorable"
+        else:
+            # Make prediction using the pre-trained model
+            result = water.water_quality_prediction(input_data)
 
         # Return prediction result to the user
         return render_template('water_result.html', result=result)
     return render_template('water_result.html', result=None)
-
 @app.route('/air_predict', methods=['POST', 'GET'])
 def air_predict():
     if request.method == 'POST':

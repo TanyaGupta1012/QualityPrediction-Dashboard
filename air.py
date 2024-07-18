@@ -35,6 +35,8 @@ pred_lr = model_lr.predict(x_test)
 # Calculate accuracy score
 accuracy_score_lr = accuracy_score(y_test, pred_lr)
 
+
+
 try:
     with open('air_model.pkl', 'wb') as f:
         pickle.dump(pred_lr, f)

@@ -21,33 +21,31 @@
                 <div class="form-wrapper">
                     <div class="form-column">
                         <label for="PM2.5">PM2.5:</label>
-                        <input type="number" id="PM2.5" name="PM2.5" step="0.01" required>
+                        <input type="number" id="PM2.5" name="PM2.5" step="0.01" min="0.04" max="950" required>
                         <label for="PM10">PM10:</label>
-                        <input type="number" id="PM10" name="PM10" step="0.01" required>
+                        <input type="number" id="PM10" name="PM10" step="0.01" min="0.01" max="1000.00" required>
                         <label for="NO">NO:</label>
-                        <input type="number" id="NO" name="NO" step="0.01" required>
+                        <input type="number" id="NO" name="NO" step="0.01" min="0.02" max="391" required>
                         <label for="NO2'">NO2:</label>
-                        <input type="number" id="NO2'" name="NO2''" step="0.01" required>
+                        <input type="number" id="NO2" name="NO2" step="0.01" min="0.01" max="363" required>
                         <label for="NOx'">NOx:</label>
-                        <input type="number" id="NOx'" name="NOx'" step="0.01" required>
+                        <input type="number" id="NOx" name="NOx" step="0.01" min="0.00" max="468" required>
                         <label for="NH3">NH3:</label>
-                        <input type="number" id="NH3" name="NH3" step="0.01" required>
-
-
+                        <input type="number" id="NH3" name="NH3" step="0.01" min="0.01" max="353" required>
                     </div>
                     <div class="form-column">
                         <label for="CO">CO:</label>
-                        <input type="number" id="CO" name="CO" step="0.01" required>
+                        <input type="number" id="CO" name="CO" step="0.01" min="0.0" max="176" required>
                         <label for="SO2">SO2:</label>
-                        <input type="number" id="SO2" name="SO2" step="0.01" required>
+                        <input type="number" id="SO2" name="SO2" step="0.01" min="0.01" max="194" required>
                         <label for="O3">O3:</label>
-                        <input type="number" id="O3" name="O3" step="0.01" required>
+                        <input type="number" id="O3" name="O3" step="0.01" min="0.01" max="258" required>
                         <label for="Benzene">Benzene:</label>
-                        <input type="number" id="Benzene" name="Benzene" step="0.01" required>
+                        <input type="number" id="Benzene" name="Benzene" step="0.01" min="0.00" max="456" required>
                         <label for="Toluene">Toluene:</label>
-                        <input type="number" id="Toluene" name="Toluene" step="0.01" required>
+                        <input type="number" id="Toluene" name="Toluene" step="0.01" min="0.00" max="455" required>
                         <label for="Xylene">Xylene:</label>
-                        <input type="number" id="Xylene" name="Xylene" step="0.01" required>
+                        <input type="number" id="Xylene" name="Xylene" step="0.01" min="0" max="171" required>
                     </div>
                 </div>
                 <button type="submit">Predict Air Quality</button>
@@ -61,4 +59,3 @@
 </body>
 
 </html>
-
